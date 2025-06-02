@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public float JumpForce = 10f;
     public float horizontalInput;
     private bool Grounded;
+    
 
 
 
@@ -22,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         Anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        
 
     }
 
@@ -42,9 +44,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-
-        rb.linearVelocity = new Vector2(horizontalInput * MoveSpeed, rb.linearVelocity.y);
-
+       
+        rb.linearVelocity = new Vector2(horizontalInput * MoveSpeed, rb.linearVelocity.y);  
     }
 
 
