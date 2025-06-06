@@ -12,7 +12,10 @@ public enum ComboState
 public class PlayerAttack : MonoBehaviour
 {
     private Animator Anim;
-   
+    public Transform attackPoint;
+    public float attackRadius = 1f;
+    public LayerMask attackLayer;
+
 
     private bool TimeReset;
 
@@ -26,7 +29,7 @@ public class PlayerAttack : MonoBehaviour
     void Awake()
     {
         Anim = GetComponent<Animator>();
-      
+
     }
 
     void Start()
@@ -39,13 +42,14 @@ public class PlayerAttack : MonoBehaviour
     {
         ComboAttack();
         ResetComboState();
+
     }
 
     void ComboAttack()
     {
         if (Input.GetKeyDown(KeyCode.J))
         {
-          
+
             if (current_Combo_State == ComboState.Attack3)
             {
                 return;
@@ -68,8 +72,12 @@ public class PlayerAttack : MonoBehaviour
             {
                 Anim.SetTrigger("Attack3");
             }
+            GetComponent<PlayerMovement>().enabled = false;
         }
-
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Space))
+        {
+            GetComponent<PlayerMovement>().enabled = true;
+        }
     }
 
     void ResetComboState()
@@ -81,9 +89,31 @@ public class PlayerAttack : MonoBehaviour
             {
                 current_Combo_State = ComboState.None;
                 TimeReset = false;
-                
+
 
             }
         }
+    }
+
+    public void Attack()
+    {
+        Collider2D coll = Physics2D.OverlapCircle(attackPoint.position, attackRadius, attackLayer);
+        if (coll)
+        {
+            if (coll.gameObject.GetComponent<Skeleton>() != null)
+            {
+                coll.gameObject.GetComponent<Skeleton>().TakeDamage(1);
+            }
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null)
+        {
+            return;
+        }
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
     }
 }

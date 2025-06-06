@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public float JumpForce = 10f;
     public float horizontalInput;
     private bool Grounded;
-    
+
 
 
 
@@ -23,14 +23,14 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         Anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        
+
 
     }
 
     void Update()
     {
         horizontalInput = Input.GetAxis("Horizontal");
-        if (Input.GetKeyDown(KeyCode.Space)&&Grounded)
+        if (Input.GetKeyDown(KeyCode.Space) && Grounded)
         {
             Jump();
         }
@@ -44,8 +44,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-       
-        rb.linearVelocity = new Vector2(horizontalInput * MoveSpeed, rb.linearVelocity.y);  
+
+        rb.linearVelocity = new Vector2(horizontalInput * MoveSpeed, rb.linearVelocity.y);
     }
 
 
@@ -75,6 +75,16 @@ public class PlayerMovement : MonoBehaviour
             Grounded = true;
         }
 ;
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.CompareTag("Coin"))
+        {
+            FindFirstObjectByType<GameManager>().Coin += 1f;
+            col.gameObject.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Collected");
+            Destroy(col.gameObject,1f);
+        }
     }
 
 
