@@ -73,6 +73,7 @@ public class PlayerAttack : MonoBehaviour
                 Anim.SetTrigger("Attack3");
             }
             GetComponent<PlayerMovement>().enabled = false;
+            FindFirstObjectByType<PlayerMovement>().rb.linearVelocityX = 0f;
         }
         if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Space))
         {
@@ -100,9 +101,9 @@ public class PlayerAttack : MonoBehaviour
         Collider2D coll = Physics2D.OverlapCircle(attackPoint.position, attackRadius, attackLayer);
         if (coll)
         {
-            if (coll.gameObject.GetComponent<Skeleton>() != null)
+            if (coll.gameObject.GetComponent<Enemies1>() != null)
             {
-                coll.gameObject.GetComponent<Skeleton>().TakeDamage(1);
+                coll.gameObject.GetComponent<Enemies1>().TakeDamage(1);
             }
         }
     }

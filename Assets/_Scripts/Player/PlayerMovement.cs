@@ -5,7 +5,7 @@ using UnityEngine.Animations;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     private Animator Anim;
 
     private SpriteRenderer spriteRenderer;
@@ -13,7 +13,11 @@ public class PlayerMovement : MonoBehaviour
     public float MoveSpeed = 5f;
     public float JumpForce = 10f;
     public float horizontalInput;
-    private bool Grounded;
+    public bool Grounded;
+
+    public int maxJumpCount = 2;
+    private int jumpCount = 0;
+
 
 
 
@@ -30,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         horizontalInput = Input.GetAxis("Horizontal");
-        if (Input.GetKeyDown(KeyCode.Space) && Grounded)
+        if (Input.GetKeyDown(KeyCode.Space) && jumpCount<maxJumpCount)
         {
             Jump();
         }
@@ -64,6 +68,7 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, JumpForce);
+        jumpCount++;
         Grounded = false;
         Anim.SetTrigger("Jump");
     }
@@ -73,7 +78,9 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             Grounded = true;
+            jumpCount = 0;
         }
+
 ;
     }
 
@@ -83,9 +90,13 @@ public class PlayerMovement : MonoBehaviour
         {
             FindFirstObjectByType<GameManager>().Coin += 1f;
             col.gameObject.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Collected");
-            Destroy(col.gameObject,1f);
+            Destroy(col.gameObject, 1f);
         }
+
+       
     }
+
+
 
 
 }
