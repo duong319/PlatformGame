@@ -13,7 +13,7 @@ public class Enemies1 : MonoBehaviour
     public float distance = 1f;
     public LayerMask layerMask;
 
-    private bool facingright;
+    public bool facingright;
     public bool inRange = false;
 
     public Transform player;
@@ -36,12 +36,8 @@ public class Enemies1 : MonoBehaviour
 
     private bool isAttacking = false;
     private bool isHurting = false;
-    
 
-
-
-
-
+   
 
     void Start()
     {
@@ -52,6 +48,7 @@ public class Enemies1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       
         if (FindFirstObjectByType<GameManager>().isGameActive == false)
         {
             return;
@@ -90,6 +87,7 @@ public class Enemies1 : MonoBehaviour
                 if (Vector2.Distance(transform.position, player.position) > retrieveDistance)
                 {
                     animator.SetBool("Attack", false);
+                   // Vector2 target=new Vector2(player.position.x, rb.position.y);
                     transform.position = Vector2.MoveTowards(transform.position, player.position, chaseSpeed * Time.deltaTime);
                 }
                 else

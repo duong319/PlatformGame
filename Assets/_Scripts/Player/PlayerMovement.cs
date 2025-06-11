@@ -57,11 +57,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (horizontalInput > 0.01f)
         {
-            spriteRenderer.flipX = false;
+             
+           transform.eulerAngles = new Vector3(0, 0, 0);
         }
         else if (horizontalInput < -0.01f)
         {
-            spriteRenderer.flipX = true;
+             
+            transform.eulerAngles = new Vector3(0, -180, 0);
         }
     }
 
@@ -92,8 +94,13 @@ public class PlayerMovement : MonoBehaviour
             col.gameObject.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Collected");
             Destroy(col.gameObject, 1f);
         }
+        if (col.gameObject.CompareTag("Enemies"))
+        {
+            FindFirstObjectByType<PlayerHealth>().TakeDamage(1);
+            Debug.Log("hit");
+        }
 
-       
+
     }
 
 

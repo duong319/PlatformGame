@@ -75,7 +75,7 @@ public class PlayerAttack : MonoBehaviour
             GetComponent<PlayerMovement>().enabled = false;
             FindFirstObjectByType<PlayerMovement>().rb.linearVelocityX = 0f;
         }
-        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Space)&&FindFirstObjectByType<PlayerHealth>().isHurting==false)
         {
             GetComponent<PlayerMovement>().enabled = true;
         }
@@ -90,8 +90,6 @@ public class PlayerAttack : MonoBehaviour
             {
                 current_Combo_State = ComboState.None;
                 TimeReset = false;
-
-
             }
         }
     }
@@ -105,6 +103,11 @@ public class PlayerAttack : MonoBehaviour
             {
                 coll.gameObject.GetComponent<Enemies1>().TakeDamage(1);
             }
+            if (coll.gameObject.GetComponent<FlyEnemies>() != null)
+            {
+                coll.gameObject.GetComponent<FlyEnemies>().TakeDamage(1);
+            }
+
         }
     }
 
