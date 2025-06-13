@@ -177,11 +177,6 @@ public class Enemies1 : MonoBehaviour
 
  
 
-
-
-
-
-
     private void OnDrawGizmosSelected()
     {
         if (checkpoint == null)

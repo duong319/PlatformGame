@@ -15,6 +15,7 @@ public class PlayerAttack : MonoBehaviour
     public Transform attackPoint;
     public float attackRadius = 1f;
     public LayerMask attackLayer;
+    public int playerAttack = 1;
 
 
     private bool TimeReset;
@@ -101,11 +102,15 @@ public class PlayerAttack : MonoBehaviour
         {
             if (coll.gameObject.GetComponent<Enemies1>() != null)
             {
-                coll.gameObject.GetComponent<Enemies1>().TakeDamage(1);
+                coll.gameObject.GetComponent<Enemies1>().TakeDamage(playerAttack);
             }
             if (coll.gameObject.GetComponent<FlyEnemies>() != null)
             {
-                coll.gameObject.GetComponent<FlyEnemies>().TakeDamage(1);
+                coll.gameObject.GetComponent<FlyEnemies>().TakeDamage(playerAttack);
+            }
+            if (coll.gameObject.GetComponent<BossBehavior>() != null)
+            {
+                coll.gameObject.GetComponent<BossBehavior>().TakeDamage(playerAttack);
             }
 
         }

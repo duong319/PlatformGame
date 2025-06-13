@@ -1,4 +1,7 @@
 using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
+
 
 public class BossBehavior : MonoBehaviour
 {
@@ -12,11 +15,17 @@ public class BossBehavior : MonoBehaviour
     public float attackCooldown = 2f;
     private float attackTimer = 0f;
     private bool isAttacking = false;
+    public Transform attackPoint;
+    public float attackRadius = 1f;
+    public LayerMask attackLayer;
 
     [Header("Health & Enrage")]
     public float maxHealth = 100f;
     private float currentHealth;
     private bool isEnraged = false;
+    private bool isHurting = false;
+    [SerializeField]
+    private Slider enemyHealthSlider;
 
     [Header("Special Skill")]
     private int hitCounter = 0;
@@ -25,6 +34,9 @@ public class BossBehavior : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     private bool facingLeft = true;
+    [SerializeField]
+    public GameObject skillPrefab;
+    public Transform[] spawnPoints;
 
     void Start()
     {
@@ -36,14 +48,14 @@ public class BossBehavior : MonoBehaviour
     void Update()
     {
         if (player == null || currentHealth <= 0) return;
-
+        if (isHurting) return;
         // Enrage check
         if (!isEnraged && currentHealth <= maxHealth / 2f)
         {
             Enrage();
         }
 
-        
+
         if (isAttacking)
         {
             attackTimer -= Time.deltaTime;
@@ -54,7 +66,7 @@ public class BossBehavior : MonoBehaviour
             else
             {
                 rb.linearVelocity = Vector2.zero;
-                return; 
+                return;
             }
         }
 
@@ -72,7 +84,7 @@ public class BossBehavior : MonoBehaviour
                 transform.eulerAngles = new Vector3(0, -0, 0);
                 facingLeft = false;
             }
-            if (direction.x > 0 && !facingLeft) 
+            if (direction.x > 0 && !facingLeft)
             {
                 transform.eulerAngles = new Vector3(0, -180, 0);
                 facingLeft = true;
@@ -93,12 +105,20 @@ public class BossBehavior : MonoBehaviour
     void Attack()
     {
         rb.linearVelocity = Vector2.zero;
-        animator.SetTrigger("Attack"); 
+        animator.SetTrigger("Attack");
         isAttacking = true;
         attackTimer = attackCooldown;
     }
+    public void DealDamage()
+    {
+        Collider2D coll = Physics2D.OverlapCircle(attackPoint.position, attackRadius, attackLayer);
+        if (coll)
+        {
+            coll.gameObject.GetComponent<PlayerHealth>().TakeDamage(5);
+        }
+    }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
         if (currentHealth <= 0) return;
 
@@ -116,13 +136,17 @@ public class BossBehavior : MonoBehaviour
         {
             Die();
         }
+        enemyHealthSlider.value = currentHealth;
+        isHurting = true;
+
+        StartCoroutine(EndHurtAfterDelay(1));
     }
 
     void Enrage()
     {
         isEnraged = true;
         moveSpeed *= 1.5f;
-        attackCooldown *= 0.7f; 
+        attackCooldown *= 0.7f;
         animator.SetTrigger("Enrage");
         Debug.Log("Boss is ENRAGED!");
     }
@@ -130,8 +154,8 @@ public class BossBehavior : MonoBehaviour
     void CastSpecialSkill()
     {
         animator.SetTrigger("SpecialSkill");
-        Debug.Log("Boss casts SPECIAL SKILL!");
-        
+        StartCoroutine(SpawnInSequence());
+
     }
 
     void Die()
@@ -139,8 +163,29 @@ public class BossBehavior : MonoBehaviour
         animator.SetTrigger("Die");
         rb.linearVelocity = Vector2.zero;
         this.enabled = false;
-        
+
     }
 
-  
+    private void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null) return;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
+    }
+
+    private IEnumerator EndHurtAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        isHurting = false;
+    }
+
+    IEnumerator SpawnInSequence()
+    {
+        foreach (Transform point in spawnPoints)
+        {
+            Instantiate(skillPrefab, point.position, point.rotation);
+            yield return new WaitForSeconds(1f);
+        }
+
+
+    }
 }
