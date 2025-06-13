@@ -2,12 +2,14 @@ using UnityEngine;
 using Unity.UI;
 using UnityEngine.UI;
 using System.Collections;
+using NUnit.Framework.Constraints;
 
 public class Enemies1 : MonoBehaviour
 {
     public GameObject itemDropPrefab;
     public float maxHealth = 5;
     public float moveSpeed = 1f;
+    public float maxHeightDifference = 5f;
 
     public Transform checkpoint;
     public float distance = 1f;
@@ -67,11 +69,11 @@ public class Enemies1 : MonoBehaviour
         if (isHurting) return;
 
         inRange = Vector2.Distance(transform.position, player.position) <= attackRange;
-
+        
 
         if (!isAttacking)
         {
-            if (inRange&&FindFirstObjectByType<PlayerMovement>().Grounded==true)
+            if (inRange&& Mathf.Abs(player.position.y - transform.position.y) <= maxHeightDifference &&FindFirstObjectByType<PlayerMovement>().Grounded == true)
             {
                 if (player.position.x > transform.position.x && facingright == true)
                 {
@@ -87,7 +89,6 @@ public class Enemies1 : MonoBehaviour
                 if (Vector2.Distance(transform.position, player.position) > retrieveDistance)
                 {
                     animator.SetBool("Attack", false);
-                   // Vector2 target=new Vector2(player.position.x, rb.position.y);
                     transform.position = Vector2.MoveTowards(transform.position, player.position, chaseSpeed * Time.deltaTime);
                 }
                 else

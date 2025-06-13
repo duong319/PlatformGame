@@ -16741,8 +16741,9 @@ GameObject:
   - component: {fileID: 367234917}
   - component: {fileID: 367234916}
   - component: {fileID: 367234915}
-  - component: {fileID: 367234914}
   - component: {fileID: 367234913}
+  - component: {fileID: 367234918}
+  - component: {fileID: 367234919}
   m_Layer: 8
   m_Name: Boss
   m_TagString: Enemies
@@ -16772,43 +16773,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!70 &367234914
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 367234912}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0.35000068, y: -0.19472732}
-  m_Size: {x: 0.39847285, y: 0.51801914}
-  m_Direction: 0
 --- !u!50 &367234915
 Rigidbody2D:
   serializedVersion: 5
@@ -16900,12 +16864,68 @@ Transform:
   m_GameObject: {fileID: 367234912}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 120.95242, y: -3.4043393, z: 0.08557504}
-  m_LocalScale: {x: 6.913526, y: 8.526029, z: 1}
+  m_LocalPosition: {x: 120.28, y: -3.3122, z: 0.08557504}
+  m_LocalScale: {x: 6.913526, y: 8.697281, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 848489651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &367234918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367234912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3cb1f2adca59824f8ee9fedc85268bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 820442681}
+  chaseRange: 10
+  stopDistance: 2
+  moveSpeed: 4
+  attackCooldown: 2
+  maxHealth: 100
+  hitsBeforeSkill: 10
+--- !u!70 &367234919
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367234912}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.35301226, y: -0.17623128}
+  m_Size: {x: 0.2634275, y: 0.54675376}
+  m_Direction: 0
 --- !u!1 &369090694
 GameObject:
   m_ObjectHideFlags: 0
@@ -17985,6 +18005,7 @@ MonoBehaviour:
   itemDropPrefab: {fileID: 2035484412196632205, guid: 06db7cf6af449574189f65248deb618a, type: 3}
   maxHealth: 5
   moveSpeed: 1
+  maxHeightDifference: 0.5
   checkpoint: {fileID: 1674756817}
   distance: 1
   layerMask:
@@ -20732,6 +20753,7 @@ MonoBehaviour:
   itemDropPrefab: {fileID: 2035484412196632205, guid: 06db7cf6af449574189f65248deb618a, type: 3}
   maxHealth: 5
   moveSpeed: 1
+  maxHeightDifference: 0.5
   checkpoint: {fileID: 1299429970}
   distance: 1
   layerMask:
@@ -23417,6 +23439,7 @@ MonoBehaviour:
   itemDropPrefab: {fileID: 2035484412196632205, guid: 06db7cf6af449574189f65248deb618a, type: 3}
   maxHealth: 5
   moveSpeed: 1
+  maxHeightDifference: 1
   checkpoint: {fileID: 132716131}
   distance: 1
   layerMask:
@@ -24015,6 +24038,7 @@ MonoBehaviour:
   itemDropPrefab: {fileID: 2035484412196632205, guid: 06db7cf6af449574189f65248deb618a, type: 3}
   maxHealth: 5
   moveSpeed: 1
+  maxHeightDifference: 0.5
   checkpoint: {fileID: 850964343}
   distance: 1
   layerMask:
