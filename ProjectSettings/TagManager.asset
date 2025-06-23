@@ -8,6 +8,9 @@ TagManager:
   - Coin
   - Enemies
   - Icon
+  - HealthPotion
+  - Spikes
+  - Audio
   layers:
   - Default
   - TransparentFX

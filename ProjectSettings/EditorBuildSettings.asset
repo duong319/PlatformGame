@@ -11,6 +11,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/MainMenu.unity
     guid: c988b7f0ace3e8d4b821d4472f88b141
+  - enabled: 1
+    path: Assets/_Scenes/Shop.unity
+    guid: 89fda70909ec33642b0fb72e9e5a25f9
+  - enabled: 1
+    path: Assets/_Scenes/Option.unity
+    guid: 2daab08091859bf4987a8e1bdbd3cc74
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 3590b91b4603b465dbb4216d601bff33, type: 3}
   m_UseUCBPForAssetBundles: 0

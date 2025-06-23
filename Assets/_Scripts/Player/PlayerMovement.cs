@@ -90,14 +90,26 @@ public class PlayerMovement : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Coin"))
         {
-            FindFirstObjectByType<GameManager>().Coin += 1f;
+            FindFirstObjectByType<GameManager>().AddCoin(1);
             col.gameObject.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Collected");
             Destroy(col.gameObject, 1f);
         }
         if (col.gameObject.CompareTag("Enemies"))
         {
             FindFirstObjectByType<PlayerHealth>().TakeDamage(1);
-            Debug.Log("hit");
+            AudioManager.PlayPlayerHurt();
+
+
+        }
+        if (col.gameObject.CompareTag("HealthPotion"))
+        {
+            FindFirstObjectByType<PlayerHealth>().currentHealth += 1;
+            Destroy(col.gameObject);
+        }
+        if (col.gameObject.CompareTag("Spikes"))
+        {
+            FindFirstObjectByType<PlayerHealth>().TakeDamage(1);
+            AudioManager.PlayPlayerHurt();
         }
 
 

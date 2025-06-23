@@ -3,12 +3,29 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    PlayerStats player;
     public bool isGameActive = true;
-    public float Coin;
-    public Text CoinText;
+    public static int Coin;
+   
+    public static int inGameCoin;
+    public Text inGameCoinText;
 
-    public void Update()
+    private void Start()
     {
-        CoinText.text=Coin.ToString();
+        player = PlayerStats.Instance;
+        player.LoadData();
+    }
+
+    public void UpdateUI()
+    {
+        
+        inGameCoinText.text = inGameCoin.ToString();
+    }
+
+    public void AddCoin(int amount)
+    {
+        inGameCoin += amount;
+        player.PlayerCoin += amount;
+        UpdateUI();
     }
 }

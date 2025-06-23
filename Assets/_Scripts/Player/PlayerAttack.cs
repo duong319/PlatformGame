@@ -15,7 +15,7 @@ public class PlayerAttack : MonoBehaviour
     public Transform attackPoint;
     public float attackRadius = 1f;
     public LayerMask attackLayer;
-    public int playerAttack = 1;
+    public static int playerAttack = 1;
 
 
     private bool TimeReset;
@@ -58,6 +58,7 @@ public class PlayerAttack : MonoBehaviour
             current_Combo_State++;
             TimeReset = true;
             current_combo_Timer = default_Combo_Timer;
+            AudioManager.PlayPlayerSwing();
 
             if (current_Combo_State == ComboState.Attack1)
             {

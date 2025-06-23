@@ -11,7 +11,9 @@ GameObject:
   - component: {fileID: 781944494825772575}
   - component: {fileID: 8567393006167366489}
   - component: {fileID: 6194267837489190920}
-  - component: {fileID: 5541544923764604969}
+  - component: {fileID: 8993584317262038600}
+  - component: {fileID: -5501097732364755088}
+  - component: {fileID: 1466256071173297906}
   m_Layer: 0
   m_Name: Boss_Skill_Effect_0
   m_TagString: Enemies
@@ -111,8 +113,40 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!70 &5541544923764604969
-CapsuleCollider2D:
+--- !u!114 &8993584317262038600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4298882990740109867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 577c4796ae825564b88d7aac5a72177c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyAfter: 1
+--- !u!114 &-5501097732364755088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4298882990740109867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0adf9f222db83f14ebc2b2acf3cb1a5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  laserWidth: 3
+  maxLength: 17.5
+  expandDuration: 0.4
+  damage: 10
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 128
+--- !u!61 &1466256071173297906
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -145,6 +179,15 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.016560236, y: 0.027256558}
-  m_Size: {x: 0.37317958, y: 0.11417233}
-  m_Direction: 0
+  m_Offset: {x: -0.024492458, y: 0.012109302}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.4, y: 0.93}
+    newSize: {x: 1.4, y: 0.93}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.33873096, y: 0.12386958}
+  m_EdgeRadius: 0

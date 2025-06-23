@@ -73,17 +73,17 @@ public class Enemies1 : MonoBehaviour
 
         if (!isAttacking)
         {
-            if (inRange&& Mathf.Abs(player.position.y - transform.position.y) <= maxHeightDifference &&FindFirstObjectByType<PlayerMovement>().Grounded == true)
+            if (inRange&& Mathf.Abs(player.position.y - transform.position.y) <= maxHeightDifference )
             {
-                if (player.position.x > transform.position.x && facingright == true)
+                if (player.position.x > transform.position.x && facingright == false)
                 {
                     transform.eulerAngles = new Vector3(0, -0, 0);
-                    facingright = false;
+                    facingright = true;
                 }
-                else if (player.position.x < transform.position.x && facingright == false)
+                else if (player.position.x < transform.position.x && facingright == true)
                 {
                     transform.eulerAngles = new Vector3(0, -180, 0);
-                    facingright = true;
+                    facingright = false;
                 }
 
                 if (Vector2.Distance(transform.position, player.position) > retrieveDistance)
@@ -94,7 +94,7 @@ public class Enemies1 : MonoBehaviour
                 else
                 {
                     animator.SetBool("Attack", true);
-                   
+
                 }
 
             }
@@ -115,7 +115,7 @@ public class Enemies1 : MonoBehaviour
                     transform.eulerAngles = new Vector3(0, 0, 0);
                     facingright = true;
                 }
-            }
+            }   
         }
 
 
@@ -125,24 +125,25 @@ public class Enemies1 : MonoBehaviour
 
     public void Attack()
     {
-
+        if (Time.time < lastAttackTime + attackCooldown) return;
         isAttacking = true;
+        lastAttackTime = Time.time;
+        rb.linearVelocity = Vector2.zero;
 
         Collider2D coll = Physics2D.OverlapCircle(attackPoint.position, attackRadius, attackLayer);
-
-        if (coll)
+        //if (Time.time >= lastAttackTime + attackCooldown)
+        //{
+        //    lastAttackTime = Time.time;
+        //}
+      
+            if (coll&&coll.gameObject.GetComponent<PlayerHealth>() != null)
         {
 
-            if (coll.gameObject.GetComponent<PlayerHealth>() != null)
-            {
-                if (Time.time >= lastAttackTime + attackCooldown)
-                {
-                    lastAttackTime = Time.time;
-                    coll.gameObject.GetComponent<PlayerHealth>().TakeDamage(1);
+            coll.gameObject.GetComponent<PlayerHealth>().TakeDamage(1);
+            AudioManager.PlayPlayerHurt();
 
-                }
-            }
         }
+
         StartCoroutine(EndAttackAfterDelay(attackCooldown));
     }
 

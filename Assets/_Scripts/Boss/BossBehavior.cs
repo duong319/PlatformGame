@@ -18,18 +18,21 @@ public class BossBehavior : MonoBehaviour
     public Transform attackPoint;
     public float attackRadius = 1f;
     public LayerMask attackLayer;
+    private bool isCastingSkill = false;
 
     [Header("Health & Enrage")]
     public float maxHealth = 100f;
     private float currentHealth;
     private bool isEnraged = false;
     private bool isHurting = false;
+    private bool isImmune = false;
     [SerializeField]
     private Slider enemyHealthSlider;
+    public GameObject HealthBarCanvas;
 
     [Header("Special Skill")]
     private int hitCounter = 0;
-    public int hitsBeforeSkill = 10;
+    public int hitsBeforeSkill = 4;
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -38,21 +41,56 @@ public class BossBehavior : MonoBehaviour
     public GameObject skillPrefab;
     public Transform[] spawnPoints;
 
+    public DifficultManager difficultManager;
+
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         currentHealth = maxHealth;
+        difficultManager=GetComponent<DifficultManager>();
+
+        switch (DifficultManager.Difficulty)
+        {
+            case DifficultManager.Difficulties.Easy:
+                maxHealth = 25f;
+                break;
+
+            case DifficultManager.Difficulties.Medium:
+                maxHealth = 50f;
+                break;
+
+            case DifficultManager.Difficulties.Hard:
+                maxHealth = 100f;
+                break;
+
+
+        }
     }
 
     void Update()
     {
         if (player == null || currentHealth <= 0) return;
-        if (isHurting) return;
+        if (isHurting)
+        {
+            rb.linearVelocity = Vector2.zero;
+            animator.SetBool("IsMoving", false);
+            return;
+        }
+        if (isImmune) return;
         // Enrage check
         if (!isEnraged && currentHealth <= maxHealth / 2f)
         {
             Enrage();
+        }
+        if (isCastingSkill)
+        {
+            rb.linearVelocity = Vector2.zero;
+            animator.SetBool("IsMoving", false);
+            return;
+
         }
 
 
@@ -74,6 +112,7 @@ public class BossBehavior : MonoBehaviour
 
         if (distanceToPlayer <= chaseRange && distanceToPlayer > stopDistance)
         {
+            HealthBarCanvas.gameObject.SetActive(true);
             Vector2 direction = (player.position - transform.position).normalized;
             rb.linearVelocity = new Vector2(direction.x * moveSpeed, rb.linearVelocity.y);
             animator.SetBool("IsMoving", true);
@@ -104,6 +143,7 @@ public class BossBehavior : MonoBehaviour
 
     void Attack()
     {
+        AudioManager.Instance.PlaySFXWithDelay(AudioManager.Instance.BossSwing, 0.5f);
         rb.linearVelocity = Vector2.zero;
         animator.SetTrigger("Attack");
         isAttacking = true;
@@ -115,20 +155,22 @@ public class BossBehavior : MonoBehaviour
         if (coll)
         {
             coll.gameObject.GetComponent<PlayerHealth>().TakeDamage(5);
+            AudioManager.PlayPlayerHurt();
         }
     }
 
     public void TakeDamage(int damage)
     {
-        if (currentHealth <= 0) return;
-
+        if (currentHealth <= 0 || isImmune) return;
+        AudioManager.PlayBossHurt();
         currentHealth -= damage;
         animator.SetTrigger("Hurt");
 
         hitCounter++;
         if (hitCounter >= hitsBeforeSkill)
         {
-            CastSpecialSkill();
+            FindFirstObjectByType<HealthPotionManager>().SpawnAtRandomPoint();
+            Invoke("CastSpecialSkill", 2.1f);
             hitCounter = 0;
         }
 
@@ -140,6 +182,7 @@ public class BossBehavior : MonoBehaviour
         isHurting = true;
 
         StartCoroutine(EndHurtAfterDelay(1));
+        StartCoroutine(TriggerImmune(2f));
     }
 
     void Enrage()
@@ -162,7 +205,9 @@ public class BossBehavior : MonoBehaviour
     {
         animator.SetTrigger("Die");
         rb.linearVelocity = Vector2.zero;
-        this.enabled = false;
+
+        StartCoroutine(DieSequence());
+
 
     }
 
@@ -178,14 +223,39 @@ public class BossBehavior : MonoBehaviour
         isHurting = false;
     }
 
+    private IEnumerator TriggerImmune(float duration)
+    {
+        isImmune = true;
+        yield return new WaitForSeconds(duration);
+        isImmune = false;
+    }
+
     IEnumerator SpawnInSequence()
     {
+        isImmune = true;
+        rb.linearVelocity = Vector2.zero;
+        animator.SetBool("IsMoving", false);
+
         foreach (Transform point in spawnPoints)
         {
             Instantiate(skillPrefab, point.position, point.rotation);
+
             yield return new WaitForSeconds(1f);
         }
 
+        yield return new WaitForSeconds(5f);
+        isImmune = false;
+        isCastingSkill = false;
+    }
+    IEnumerator DieSequence()
+    {
+        Debug.Log("Start Die Sequence");
+        yield return new WaitForSeconds(4f);
+        Debug.Log("Calling LevelClear");
+        FindFirstObjectByType<GameClearScene>().LevelClear();
 
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log("Disabling boss");
+        gameObject.SetActive(false);
     }
 }
