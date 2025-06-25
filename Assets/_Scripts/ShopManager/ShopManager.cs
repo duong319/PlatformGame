@@ -8,7 +8,7 @@ public class ShopManager : MonoBehaviour
 
 
 
-    public int atkCost => player.PlayerAtk * 2;
+    public int atkCost => player.PlayerAtk * 3;
     public int hpCost => Mathf.CeilToInt(player.PlayerHp / 5f);
 
     void Awake()
@@ -22,14 +22,13 @@ public class ShopManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        player.LoadData();
     }
 
     void Start()
     {
         player = PlayerStats.Instance;
-        player.LoadData();
-       
-
+          
     }
 
 

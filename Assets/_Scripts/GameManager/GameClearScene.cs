@@ -8,6 +8,7 @@ public class GameClearScene : MonoBehaviour
     public Button nextLevelButton;
     public Button optionButton;
     public Button mainmenuButton;
+    public GameObject InGameOption;
 
     private void Start()
     {
@@ -27,8 +28,9 @@ public class GameClearScene : MonoBehaviour
 
     public void OnOption()
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("Option");
+        InGameOption.SetActive(true);
+        Time.timeScale = 0f;
+       
     }
 
     public void OnMainMenu()

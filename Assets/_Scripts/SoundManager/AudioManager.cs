@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class AudioManager : MonoBehaviour
 {
@@ -18,6 +19,14 @@ public class AudioManager : MonoBehaviour
     public AudioClip PlayerHurt;
     public AudioClip BossHurt;
     public AudioClip BossSwing;
+    public AudioClip BossBattle;
+    public AudioClip GameOver;
+    public AudioClip BossSkill;
+    public AudioClip GetCoin;
+    public AudioClip LevelClear;
+    public AudioClip Heal;
+    public AudioClip BtnClick;
+
 
 
     private void Awake()
@@ -49,8 +58,22 @@ public class AudioManager : MonoBehaviour
             SFXSource.PlayOneShot(clip);
         }
     }
+    public void StopSFX(AudioClip clip)
+    {
+        if (musicSource.clip == clip)
+        {
+            musicSource.Stop();
+        }
+    }
 
-
+    public static void DisableBackGround()
+    {
+        Instance.musicSource.Stop();
+    }
+    public static void EnableBackGround()
+    {
+        Instance.musicSource.Play();
+    }
     public static void PlayPlayerSwing() => Instance?.PlaySFX(Instance.PlayerSwing);
     public static void PlayBossHit() => Instance?.PlaySFX(Instance.BossHit);
     public static void PlayPlayerHurt() => Instance?.PlaySFX(Instance.PlayerHurt);
@@ -58,15 +81,15 @@ public class AudioManager : MonoBehaviour
 
     public static void PlayBossSwing() => Instance?.PlaySFX(Instance.BossSwing);
 
-    public void PlaySFXWithDelay(AudioClip clip, float delay)
+    public void PlaySFXWithDelay(AudioClip clip, float delay, float volume=1f)
     {
-        StartCoroutine(DelayedPlaySFX(clip, delay));
+        StartCoroutine(DelayedPlaySFX(clip, delay, volume));
     }
 
-    private  IEnumerator DelayedPlaySFX(AudioClip clip, float delay)
+    private  IEnumerator DelayedPlaySFX(AudioClip clip, float delay,float volume)
     {
         yield return new WaitForSeconds(delay);
-        SFXSource.PlayOneShot(clip);
+        SFXSource.PlayOneShot(clip,volume);
     }
 
 

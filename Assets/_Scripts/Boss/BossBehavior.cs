@@ -55,11 +55,11 @@ public class BossBehavior : MonoBehaviour
         switch (DifficultManager.Difficulty)
         {
             case DifficultManager.Difficulties.Easy:
-                maxHealth = 25f;
+                maxHealth = 30f;
                 break;
 
             case DifficultManager.Difficulties.Medium:
-                maxHealth = 50f;
+                maxHealth = 60f;
                 break;
 
             case DifficultManager.Difficulties.Hard:
@@ -112,6 +112,8 @@ public class BossBehavior : MonoBehaviour
 
         if (distanceToPlayer <= chaseRange && distanceToPlayer > stopDistance)
         {
+            AudioManager.Instance.PlaySFXWithDelay(AudioManager.Instance.BossBattle, 0.1f, 0.07f);
+            AudioManager.DisableBackGround();   
             HealthBarCanvas.gameObject.SetActive(true);
             Vector2 direction = (player.position - transform.position).normalized;
             rb.linearVelocity = new Vector2(direction.x * moveSpeed, rb.linearVelocity.y);
@@ -164,7 +166,7 @@ public class BossBehavior : MonoBehaviour
         if (currentHealth <= 0 || isImmune) return;
         AudioManager.PlayBossHurt();
         currentHealth -= damage;
-        animator.SetTrigger("Hurt");
+      //  animator.SetTrigger("Hurt");
 
         hitCounter++;
         if (hitCounter >= hitsBeforeSkill)
@@ -180,9 +182,12 @@ public class BossBehavior : MonoBehaviour
         }
         enemyHealthSlider.value = currentHealth;
         isHurting = true;
-
-        StartCoroutine(EndHurtAfterDelay(1));
-        StartCoroutine(TriggerImmune(2f));
+        if (!isEnraged)
+        {
+            StartCoroutine(EndHurtAfterDelay(0.5f));
+            StartCoroutine(TriggerImmune(2f));
+            animator.SetTrigger("Hurt");
+        }
     }
 
     void Enrage()
@@ -239,6 +244,7 @@ public class BossBehavior : MonoBehaviour
         foreach (Transform point in spawnPoints)
         {
             Instantiate(skillPrefab, point.position, point.rotation);
+            AudioManager.Instance.PlaySFXWithDelay(AudioManager.Instance.BossSkill,0f);
 
             yield return new WaitForSeconds(1f);
         }
@@ -249,13 +255,11 @@ public class BossBehavior : MonoBehaviour
     }
     IEnumerator DieSequence()
     {
-        Debug.Log("Start Die Sequence");
+        AudioManager.Instance.StopSFX(AudioManager.Instance.BossBattle);
         yield return new WaitForSeconds(4f);
-        Debug.Log("Calling LevelClear");
         FindFirstObjectByType<GameClearScene>().LevelClear();
-
+        AudioManager.Instance.PlaySFXWithDelay(AudioManager.Instance.LevelClear,0f);
         yield return new WaitForSeconds(0.5f);
-        Debug.Log("Disabling boss");
         gameObject.SetActive(false);
     }
 }

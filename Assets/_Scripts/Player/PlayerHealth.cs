@@ -75,6 +75,7 @@ public class PlayerHealth : MonoBehaviour
         animator.Rebind(); 
         animator.Update(0f);
         FindFirstObjectByType<GameManager>().isGameActive = true;
+        AudioManager.EnableBackGround();
 
     }
 
@@ -83,6 +84,7 @@ public class PlayerHealth : MonoBehaviour
         isDead = true;
         FindFirstObjectByType<GameManager>().isGameActive = false;
         animator.SetTrigger("Die");
+        AudioManager.Instance.PlaySFXWithDelay(AudioManager.Instance.GameOver, 3f);
         StartCoroutine(ShowGameOverAfterDelay(3f));
         StartCoroutine(DisablePlayerAfterDelay(3.5f));
 
@@ -100,6 +102,7 @@ public class PlayerHealth : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         FindFirstObjectByType<GameOverUi>().ShowGameOver();
+        AudioManager.DisableBackGround();
     }
 
     private IEnumerator DisablePlayerAfterDelay(float delay)

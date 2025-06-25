@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         Anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-
+        AudioManager.EnableBackGround();
 
     }
 
@@ -90,6 +90,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Coin"))
         {
+            AudioManager.Instance.PlaySFXWithDelay(AudioManager.Instance.GetCoin, 0f);
             FindFirstObjectByType<GameManager>().AddCoin(1);
             col.gameObject.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Collected");
             Destroy(col.gameObject, 1f);
@@ -103,6 +104,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (col.gameObject.CompareTag("HealthPotion"))
         {
+            AudioManager.Instance.PlaySFXWithDelay(AudioManager.Instance.Heal, 0f);
             FindFirstObjectByType<PlayerHealth>().currentHealth += 1;
             Destroy(col.gameObject);
         }

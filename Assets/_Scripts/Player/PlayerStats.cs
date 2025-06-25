@@ -9,11 +9,12 @@ public class PlayerStats : MonoBehaviour
 
     void Awake()
     {
+       // ResetData();
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            LoadData(); 
+            LoadData();     
         }
         else
         {
@@ -65,6 +66,7 @@ public class PlayerStats : MonoBehaviour
     public void ResetData()
     {
         PlayerPrefs.DeleteAll();
+        
     }
 
     void OnApplicationQuit()
