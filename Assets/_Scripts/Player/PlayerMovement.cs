@@ -90,8 +90,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Coin"))
         {
-            AudioManager.Instance.PlaySFXWithDelay(AudioManager.Instance.GetCoin, 0f);
+            //AudioManager.Instance.PlaySFXWithDelay(AudioManager.Instance.GetCoin, 0f);
             FindFirstObjectByType<GameManager>().AddCoin(1);
+            //FindFirstObjectByType<DailyQuestManager>().AddProgressToQuest("0", 1);
             col.gameObject.transform.GetChild(0).GetComponent<Animator>().SetTrigger("Collected");
             Destroy(col.gameObject, 1f);
         }

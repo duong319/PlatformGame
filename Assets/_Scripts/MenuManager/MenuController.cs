@@ -21,6 +21,11 @@ public class MenuController : MonoBehaviour
         SceneManager.LoadScene("Option");
     }
 
+    public void DailyQuestScene()
+    {
+        SceneManager.LoadScene("DailyQuest");
+    }
+
     public void ClickStartBtn()
     {
         Invoke("GamePlayScene", 2);
@@ -37,6 +42,11 @@ public class MenuController : MonoBehaviour
     public void ClickOptionBtn()
     {
         Invoke("OptionScene", 2);
+        BtnClickSound.SetActive(true);
+    }
+    public void ClickDailyQuestBtn()
+    {
+        Invoke("DailyQuestScene", 2);
         BtnClickSound.SetActive(true);
     }
 

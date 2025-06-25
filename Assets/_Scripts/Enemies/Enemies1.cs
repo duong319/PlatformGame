@@ -174,9 +174,10 @@ public class Enemies1 : MonoBehaviour
     public void DestroyEnemy()
     {
         Destroy(this.gameObject);
+       // FindFirstObjectByType<DailyQuestManager>().AddProgressToQuest("1", 1);
     }
 
- 
+
 
     private void OnDrawGizmosSelected()
     {
