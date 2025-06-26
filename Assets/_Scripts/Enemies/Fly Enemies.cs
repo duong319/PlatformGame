@@ -5,7 +5,6 @@ using System.Collections;
 
 public class FlyEnemies : MonoBehaviour
 {
-    public GameObject itemDropPrefab;
     public float maxHealth = 5;
     public float moveSpeed = 3f;
     public float diveSpeed = 6f;
@@ -142,13 +141,7 @@ public class FlyEnemies : MonoBehaviour
 
 
 
-    void DropItem()
-    {
-        if (itemDropPrefab != null)
-        {
-            Instantiate(itemDropPrefab, transform.position, Quaternion.identity);
-        }
-    }
+
 
     private void OnDrawGizmosSelected()
     {

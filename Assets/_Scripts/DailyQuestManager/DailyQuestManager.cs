@@ -128,6 +128,12 @@ public class DailyQuestManager : MonoBehaviour
     }
     public void DisplayQuests()
     {
+        if (questListPanel == null || questItemPrefab == null)
+        {
+            
+            return;
+        }
+
         foreach (Transform child in questListPanel)
         {
             Destroy(child.gameObject);

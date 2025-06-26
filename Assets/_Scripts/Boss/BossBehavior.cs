@@ -255,7 +255,15 @@ public class BossBehavior : MonoBehaviour
     }
     IEnumerator DieSequence()
     {
-        FindFirstObjectByType<DailyQuestManager>().AddProgressToQuest("2", 1);
+        var questManager = FindFirstObjectByType<DailyQuestManager>();
+        if (questManager != null)
+        {
+            questManager.AddProgressToQuest("2", 1);
+        }
+        else
+        {
+            Debug.LogWarning("DailyQuestManager ");
+        }
         AudioManager.Instance.StopSFX(AudioManager.Instance.BossBattle);
         yield return new WaitForSeconds(4f);
         FindFirstObjectByType<GameClearScene>().LevelClear();

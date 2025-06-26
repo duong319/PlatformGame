@@ -76,6 +76,8 @@ public class PlayerAttack : MonoBehaviour
             }
             GetComponent<PlayerMovement>().enabled = false;
             FindFirstObjectByType<PlayerMovement>().rb.linearVelocityX = 0f;
+
+
         }
         if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Space)&&FindFirstObjectByType<PlayerHealth>().isHurting==false)
         {

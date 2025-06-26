@@ -38,8 +38,9 @@ public class Enemies1 : MonoBehaviour
 
     private bool isAttacking = false;
     private bool isHurting = false;
+    private bool isDead=false;
 
-   
+
 
     void Start()
     {
@@ -56,9 +57,9 @@ public class Enemies1 : MonoBehaviour
             return;
         }
 
-        if (maxHealth <= 0)
+        if (maxHealth <= 0&&!isDead)
         {
-
+            isDead = true;
             animator.SetTrigger("Die");
             Invoke("DestroyEnemy", 2);
             Invoke("DropItem", 2);
@@ -173,8 +174,16 @@ public class Enemies1 : MonoBehaviour
 
     public void DestroyEnemy()
     {
-        Destroy(this.gameObject);
-       // FindFirstObjectByType<DailyQuestManager>().AddProgressToQuest("1", 1);
+        var questManager = FindFirstObjectByType<DailyQuestManager>();
+        if (questManager != null)
+        {
+            questManager.AddProgressToQuest("1", 1);
+        }
+        else
+        {
+            Debug.LogWarning("DailyQuestManager ");
+        }
+        Destroy(this.gameObject);  
     }
 
 
