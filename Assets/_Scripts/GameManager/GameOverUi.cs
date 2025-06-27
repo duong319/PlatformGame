@@ -52,7 +52,13 @@ public class GameOverUi : MonoBehaviour
 
     public void ConfirmRevive()
     {
+        if (GameManager.Coin < 5)
+        {
+            Debug.Log("Not Enough Coin");
+            return;
+        }
         Time.timeScale = 1f;
+        GameManager.Coin -= 5;
         reviveConfirm.SetActive(false);
         gameOverPanel.SetActive(false);
         FindFirstObjectByType<PlayerHealth>().Revive();

@@ -27,7 +27,7 @@ public class PlayerHealth : MonoBehaviour
     {
         healthBar.SetMaxHealth(playerMaxHealth);
         healthBar.SetHealth(currentHealth);
-        if (isHurting)
+        if (isHurting||isDead)
         {
             GetComponent<PlayerMovement>().enabled = false;
         }
