@@ -45,7 +45,7 @@ public class PlayerHealth : MonoBehaviour
     {
         isHurting = true;
         if(isDead) return;
-        FindFirstObjectByType<PlayerMovement>().rb.linearVelocityX = 0f;
+        FindFirstObjectByType<PlayerMovement>().rb.velocity = Vector2.zero;
         //if ()
         //{
         //    FindFirstObjectByType<PlayerMovement>().rb.AddForce(Vector2.left * 1f, ForceMode2D.Impulse);

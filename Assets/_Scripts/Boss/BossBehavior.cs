@@ -75,7 +75,7 @@ public class BossBehavior : MonoBehaviour
         if (player == null || currentHealth <= 0) return;
         if (isHurting)
         {
-            rb.linearVelocity = Vector2.zero;
+            rb.velocity = Vector2.zero;
             animator.SetBool("IsMoving", false);
             return;
         }
@@ -87,7 +87,7 @@ public class BossBehavior : MonoBehaviour
         }
         if (isCastingSkill)
         {
-            rb.linearVelocity = Vector2.zero;
+            rb.velocity = Vector2.zero;
             animator.SetBool("IsMoving", false);
             return;
 
@@ -103,7 +103,7 @@ public class BossBehavior : MonoBehaviour
             }
             else
             {
-                rb.linearVelocity = Vector2.zero;
+                rb.velocity = Vector2.zero;
                 return;
             }
         }
@@ -116,7 +116,7 @@ public class BossBehavior : MonoBehaviour
             AudioManager.DisableBackGround();   
             HealthBarCanvas.gameObject.SetActive(true);
             Vector2 direction = (player.position - transform.position).normalized;
-            rb.linearVelocity = new Vector2(direction.x * moveSpeed, rb.linearVelocity.y);
+            rb.velocity = new Vector2(direction.x * moveSpeed, rb.velocity.y);
             animator.SetBool("IsMoving", true);
 
             // Flip facing
@@ -138,7 +138,7 @@ public class BossBehavior : MonoBehaviour
         }
         else
         {
-            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            rb.velocity = new Vector2(0, rb.velocity.y);
             animator.SetBool("IsMoving", false);
         }
     }
@@ -146,7 +146,7 @@ public class BossBehavior : MonoBehaviour
     void Attack()
     {
         AudioManager.Instance.PlaySFXWithDelay(AudioManager.Instance.BossSwing, 0.5f);
-        rb.linearVelocity = Vector2.zero;
+        rb.velocity = Vector2.zero;
         animator.SetTrigger("Attack");
         isAttacking = true;
         attackTimer = attackCooldown;
@@ -209,7 +209,7 @@ public class BossBehavior : MonoBehaviour
     void Die()
     {
         animator.SetTrigger("Die");
-        rb.linearVelocity = Vector2.zero;
+        rb.velocity = Vector2.zero;
 
         StartCoroutine(DieSequence());
 
@@ -238,7 +238,7 @@ public class BossBehavior : MonoBehaviour
     IEnumerator SpawnInSequence()
     {
         isImmune = true;
-        rb.linearVelocity = Vector2.zero;
+        rb.velocity = Vector2.zero;
         animator.SetBool("IsMoving", false);
 
         foreach (Transform point in spawnPoints)

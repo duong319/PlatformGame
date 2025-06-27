@@ -48,8 +48,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-
-        rb.linearVelocity = new Vector2(horizontalInput * MoveSpeed, rb.linearVelocity.y);
+        if (FindFirstObjectByType<PlayerAttack>().isAttacking ==false)
+        {
+            rb.velocity = new Vector2(horizontalInput * MoveSpeed, rb.velocity.y);
+        }
+        
     }
 
 
@@ -69,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, JumpForce);
+        rb.velocity = new Vector2(rb.velocity.x, JumpForce);
         jumpCount++;
         Grounded = false;
         Anim.SetTrigger("Jump");

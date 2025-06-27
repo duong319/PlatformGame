@@ -11,11 +11,14 @@ public enum ComboState
 
 public class PlayerAttack : MonoBehaviour
 {
+    private PlayerMovement mMovement;
+    private Rigidbody2D rb;
     private Animator Anim;
     public Transform attackPoint;
     public float attackRadius = 1f;
     public LayerMask attackLayer;
     public static int playerAttack = 1;
+    public bool isAttacking = false;
 
 
     private bool TimeReset;
@@ -30,7 +33,8 @@ public class PlayerAttack : MonoBehaviour
     void Awake()
     {
         Anim = GetComponent<Animator>();
-
+        rb = GetComponent<Rigidbody2D>();
+        mMovement = GetComponent<PlayerMovement>();
     }
 
     void Start()
@@ -50,7 +54,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.J))
         {
-
+            isAttacking = true;
             if (current_Combo_State == ComboState.Attack3)
             {
                 return;
@@ -74,14 +78,18 @@ public class PlayerAttack : MonoBehaviour
             {
                 Anim.SetTrigger("Attack3");
             }
-            GetComponent<PlayerMovement>().enabled = false;
-            FindFirstObjectByType<PlayerMovement>().rb.linearVelocityX = 0f;
+
+
+            mMovement.enabled = false;
+            mMovement.rb.velocity = Vector2.zero;
 
 
         }
         if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Space)&&FindFirstObjectByType<PlayerHealth>().isHurting==false)
         {
-            GetComponent<PlayerMovement>().enabled = true;
+            isAttacking= false;
+          
+          mMovement.enabled = true;
         }
     }
 

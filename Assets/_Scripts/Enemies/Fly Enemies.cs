@@ -109,7 +109,7 @@ public class FlyEnemies : MonoBehaviour
 
         if (transform.position.y <= player.position.y - 0.5f)
         {
-            rb.linearVelocity = Vector2.zero;
+            rb.velocity = Vector2.zero;
             currentState = State.Returning;
         }
     }

@@ -2,50 +2,54 @@
 using UnityEngine.UI;
 using TMPro;
 
-public class ChatController : MonoBehaviour {
-
-
+public class ChatController : MonoBehaviour
+{
     public TMP_InputField ChatInputField;
-
     public TMP_Text ChatDisplayOutput;
-
     public Scrollbar ChatScrollbar;
 
     void OnEnable()
     {
-        ChatInputField.onSubmit.AddListener(AddToChatOutput);
+        // Thêm listener cho end edit (khi user ấn Enter hoặc rời focus)
+        ChatInputField.onEndEdit.AddListener(HandleChatInput);
     }
 
     void OnDisable()
     {
-        ChatInputField.onSubmit.RemoveListener(AddToChatOutput);
+        ChatInputField.onEndEdit.RemoveListener(HandleChatInput);
     }
 
+    void HandleChatInput(string input)
+    {
+        // Kiểm tra nếu ấn Enter (trên nền desktop không có mobile keyboard)
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            if (!string.IsNullOrWhiteSpace(input))
+            {
+                AddToChatOutput(input);
+            }
+
+            // Clear input sau khi gửi
+            ChatInputField.text = string.Empty;
+
+            // Reactivate input field
+            ChatInputField.ActivateInputField();
+
+            // Đặt scrollbar xuống cuối cùng
+            ChatScrollbar.value = 0;
+        }
+    }
 
     void AddToChatOutput(string newText)
     {
-        // Clear Input Field
-        ChatInputField.text = string.Empty;
-
-        var timeNow = System.DateTime.Now;
-
-        string formattedInput = "[<#FFFF80>" + timeNow.Hour.ToString("d2") + ":" + timeNow.Minute.ToString("d2") + ":" + timeNow.Second.ToString("d2") + "</color>] " + newText;
+        string timeStamp = System.DateTime.Now.ToString("[<#FFFF80>HH:mm:ss</color>] ");
 
         if (ChatDisplayOutput != null)
         {
-            // No special formatting for first entry
-            // Add line feed before each subsequent entries
-            if (ChatDisplayOutput.text == string.Empty)
-                ChatDisplayOutput.text = formattedInput;
+            if (string.IsNullOrEmpty(ChatDisplayOutput.text))
+                ChatDisplayOutput.text = timeStamp + newText;
             else
-                ChatDisplayOutput.text += "\n" + formattedInput;
+                ChatDisplayOutput.text += "\n" + timeStamp + newText;
         }
-
-        // Keep Chat input field active
-        ChatInputField.ActivateInputField();
-
-        // Set the scrollbar to the bottom when next text is submitted.
-        ChatScrollbar.value = 0;
     }
-
 }

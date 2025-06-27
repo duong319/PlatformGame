@@ -59,6 +59,7 @@ public class Enemies1 : MonoBehaviour
 
         if (maxHealth <= 0&&!isDead)
         {
+            
             isDead = true;
             animator.SetTrigger("Die");
             Invoke("DestroyEnemy", 2);
@@ -72,7 +73,7 @@ public class Enemies1 : MonoBehaviour
         inRange = Vector2.Distance(transform.position, player.position) <= attackRange;
         
 
-        if (!isAttacking)
+        if (!isAttacking&&!isDead)
         {
             if (inRange&& Mathf.Abs(player.position.y - transform.position.y) <= maxHeightDifference )
             {
@@ -129,7 +130,7 @@ public class Enemies1 : MonoBehaviour
         if (Time.time < lastAttackTime + attackCooldown) return;
         isAttacking = true;
         lastAttackTime = Time.time;
-        rb.linearVelocity = Vector2.zero;
+        rb.velocity = Vector2.zero;
 
         Collider2D coll = Physics2D.OverlapCircle(attackPoint.position, attackRadius, attackLayer);
         //if (Time.time >= lastAttackTime + attackCooldown)
