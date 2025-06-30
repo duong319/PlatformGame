@@ -7,6 +7,7 @@ using NUnit.Framework.Constraints;
 public class Enemies1 : MonoBehaviour
 {
     public GameObject itemDropPrefab;
+    public GameObject CoinDialogue;
     public float maxHealth = 5;
     public float moveSpeed = 1f;
     public float maxHeightDifference = 5f;
@@ -63,7 +64,7 @@ public class Enemies1 : MonoBehaviour
             isDead = true;
             animator.SetTrigger("Die");
             Invoke("DestroyEnemy", 2);
-            Invoke("DropItem", 2);
+            Invoke("DropItem", 1.5f);
             return;
 
         }
@@ -168,6 +169,7 @@ public class Enemies1 : MonoBehaviour
         if (itemDropPrefab != null)
         {
             Instantiate(itemDropPrefab, transform.position, Quaternion.identity);
+            CoinDialogue.SetActive(true);
         }
     }
 

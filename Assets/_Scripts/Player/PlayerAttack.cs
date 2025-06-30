@@ -19,6 +19,7 @@ public class PlayerAttack : MonoBehaviour
     public LayerMask attackLayer;
     public static int playerAttack = 1;
     public bool isAttacking = false;
+    private PlayerStamina playerStamina;
 
 
     private bool TimeReset;
@@ -39,6 +40,7 @@ public class PlayerAttack : MonoBehaviour
 
     void Start()
     {
+        playerStamina = FindFirstObjectByType<PlayerStamina>();
         current_combo_Timer = default_Combo_Timer;
         current_Combo_State = ComboState.None;
     }
@@ -52,8 +54,9 @@ public class PlayerAttack : MonoBehaviour
 
     void ComboAttack()
     {
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.J)&&playerStamina!=null&&playerStamina.HasEnoughStamina(25f)&&playerStamina.CanUseStamina())
         {
+            playerStamina.TryUseStamina(25f);
             isAttacking = true;
             if (current_Combo_State == ComboState.Attack3)
             {

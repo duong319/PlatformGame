@@ -40,7 +40,8 @@ public class DailyQuestManager : MonoBehaviour
                 var instance = new DailyQuestInstance(data)
                 {
                     progress = saved.progress,
-                    isCompleted = saved.isCompleted
+                    isCompleted = saved.isCompleted,
+                    isClaimed = saved.isClaimed,
                 };
                 activeQuests.Add(instance);
             }
@@ -80,7 +81,8 @@ public class DailyQuestManager : MonoBehaviour
             {
                 questId = quest.questData.questId,
                 progress = quest.progress,
-                isCompleted = quest.isCompleted
+                isCompleted = quest.isCompleted,
+                isClaimed = quest.isClaimed,
             });
         }
 
@@ -103,25 +105,16 @@ public class DailyQuestManager : MonoBehaviour
         }
     }
 
-    
+
     public void AddProgressToQuest(string questId, int amount)
     {
         foreach (var quest in activeQuests)
         {
             if (quest.questData.questId == questId)
             {
-                quest.progress += amount;
-
-                
-                if (quest.progress > quest.questData.goal)
-                    quest.progress = quest.questData.goal;
-
-               
+                quest.AddProgress(amount);
                 SaveQuests();
-
-                
                 DisplayQuests();
-
                 break;
             }
         }
@@ -150,29 +143,26 @@ public class DailyQuestManager : MonoBehaviour
     {
         var quest = activeQuests.Find(q => q.questData.questId == questId);
 
-        if (quest != null && quest.isCompleted)
+        if (quest != null && quest.isCompleted && !quest.isClaimed)
         {
-           
-            GameManager.Coin += quest.questData.rewardAmount;
-
-            
-            activeQuests.Remove(quest);
-
+            PlayerStats.Instance.PlayerCoin += quest.questData.rewardAmount;
+            quest.isClaimed = true;
             SaveQuests();
             DisplayQuests();
         }
         else
         {
-            Debug.Log("Quest ch?a hoàn thành ho?c không t?n t?i!");
+            Debug.Log("Cannot claim reward.");
         }
     }
-
+    
     [Serializable]
     public class DailyQuestSaveData
     {
         public string questId;
         public int progress;
         public bool isCompleted;
+        public bool isClaimed;
     }
 
     [Serializable]

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Quest1
   m_EditorClassIdentifier: 
   questId: 0
-  icon: {fileID: -7879541775824577086, guid: ae72133dacba6ec4eb33ecde48f50e56, type: 3}
+  icon: {fileID: 21300000, guid: 668c8eb1985083d4aa23df1610b8e4c8, type: 3}
   description: Collect 5 coins
   goal: 5
   rewardAmount: 10

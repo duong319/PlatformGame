@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Quest2
   m_EditorClassIdentifier: 
   questId: 1
-  icon: {fileID: -7879541775824577086, guid: ae72133dacba6ec4eb33ecde48f50e56, type: 3}
+  icon: {fileID: 21300000, guid: 46778ed9bf208f1428d44cf3021b0b22, type: 3}
   description: kill 3 enemies
   goal: 3
   rewardAmount: 10

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Quest3
   m_EditorClassIdentifier: 
   questId: 2
-  icon: {fileID: -7823500323640422531, guid: ae72133dacba6ec4eb33ecde48f50e56, type: 3}
+  icon: {fileID: 21300000, guid: 4208600f25880004ca6729365780ded4, type: 3}
   description: defeat boss
   goal: 1
   rewardAmount: 20

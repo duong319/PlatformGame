@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: AttackGuide
   m_EditorClassIdentifier: 
   lines:
-  - characterName: The Guy
-    dialogueText: Here's our first enemy, press J to attack.
+  - characterName: TheLiems
+    dialogueText: Here's our first enemy, press "J" to attack.
     characterPortrait: {fileID: 21300000, guid: d97300a4985ad934d82ce47c05085a51, type: 3}
-  - characterName: The Guy
+  - characterName: TheLiems
     dialogueText: You can use combo attack by press attack 3 times.
     characterPortrait: {fileID: 21300000, guid: d97300a4985ad934d82ce47c05085a51, type: 3}

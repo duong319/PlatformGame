@@ -107,7 +107,7 @@ public class FlyEnemies : MonoBehaviour
         //rb.linearVelocity = new Vector2(0, -diveSpeed);
         transform.position = Vector2.MoveTowards(transform.position, attackPoint.position, diveSpeed * Time.deltaTime);
 
-        if (transform.position.y <= player.position.y - 0.5f)
+        if (transform.position.y <= player.position.y - 1.5f)
         {
             rb.velocity = Vector2.zero;
             currentState = State.Returning;

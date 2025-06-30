@@ -11,6 +11,7 @@ public class GameOverUi : MonoBehaviour
     public GameObject reviveConfirm;
     public Button yesBtn;
     public Button noBtn;
+    public Text PlayerCoinText;
 
     private void Start()
     {
@@ -22,6 +23,11 @@ public class GameOverUi : MonoBehaviour
         yesBtn.onClick.AddListener(ConfirmRevive);
         noBtn.onClick.AddListener(ConfirmNotRevive);
 
+    }
+
+    private void Update()
+    {
+        PlayerCoinText.text=PlayerStats.Instance.PlayerCoin.ToString();
     }
 
     public void ShowGameOver()
@@ -52,13 +58,13 @@ public class GameOverUi : MonoBehaviour
 
     public void ConfirmRevive()
     {
-        if (GameManager.Coin < 5)
+        if (PlayerStats.Instance.PlayerCoin < 5)
         {
             Debug.Log("Not Enough Coin");
             return;
         }
         Time.timeScale = 1f;
-        GameManager.Coin -= 5;
+        PlayerStats.Instance.PlayerCoin -= 5;
         reviveConfirm.SetActive(false);
         gameOverPanel.SetActive(false);
         FindFirstObjectByType<PlayerHealth>().Revive();

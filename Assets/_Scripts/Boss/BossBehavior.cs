@@ -21,7 +21,7 @@ public class BossBehavior : MonoBehaviour
     private bool isCastingSkill = false;
 
     [Header("Health & Enrage")]
-    public float maxHealth = 100f;
+    public float maxHealth ;
     private float currentHealth;
     private bool isEnraged = false;
     private bool isHurting = false;
@@ -49,17 +49,16 @@ public class BossBehavior : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        currentHealth = maxHealth;
-        difficultManager=GetComponent<DifficultManager>();
+        difficultManager = GetComponent<DifficultManager>();
 
         switch (DifficultManager.Difficulty)
         {
             case DifficultManager.Difficulties.Easy:
-                maxHealth = 30f;
+                maxHealth = 20f;
                 break;
 
             case DifficultManager.Difficulties.Medium:
-                maxHealth = 60f;
+                maxHealth = 50f;
                 break;
 
             case DifficultManager.Difficulties.Hard:
@@ -68,12 +67,16 @@ public class BossBehavior : MonoBehaviour
 
 
         }
+        currentHealth = maxHealth;
+        enemyHealthSlider.maxValue = maxHealth;
     }
 
     void Update()
     {
+        enemyHealthSlider.value = currentHealth;
+
         if (player == null || currentHealth <= 0) return;
-        if (isHurting)
+        if (isHurting&&!isEnraged)
         {
             rb.velocity = Vector2.zero;
             animator.SetBool("IsMoving", false);
@@ -180,7 +183,6 @@ public class BossBehavior : MonoBehaviour
         {
             Die();
         }
-        enemyHealthSlider.value = currentHealth;
         isHurting = true;
         if (!isEnraged)
         {

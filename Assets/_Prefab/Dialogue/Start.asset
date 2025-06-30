@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Start
   m_EditorClassIdentifier: 
   lines:
-  - characterName: TheGuy
+  - characterName: TheLiems
     dialogueText: Welcome to the game.
     characterPortrait: {fileID: 21300000, guid: d97300a4985ad934d82ce47c05085a51, type: 3}
-  - characterName: TheGuy
+  - characterName: TheLiems
     dialogueText: Let's defeat all the enemies.
     characterPortrait: {fileID: 21300000, guid: d97300a4985ad934d82ce47c05085a51, type: 3}
-  - characterName: TheGuy
-    dialogueText: Use A,D key to move.
+  - characterName: TheLiems
+    dialogueText: Use "A,D" key to move.
     characterPortrait: {fileID: 21300000, guid: d97300a4985ad934d82ce47c05085a51, type: 3}
